@@ -1,0 +1,75 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+//the code this a testcast find the nerest prime of 10^5
+    static int Max = 1000000;
+    static boolean [] arr = new boolean[Max];
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        steive();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int row = Integer.parseInt(st.nextToken());
+        int col  = Integer.parseInt(st.nextToken());
+        int [][] differenceInPrime = new int[row][col];
+        //int [][] matrix = new int[row][col];
+        for (int i=0;i<row;i++){
+            st = new StringTokenizer(br.readLine());
+            for (int j=0;j<col;j++){
+                int n  = Integer.parseInt(st.nextToken());
+               differenceInPrime[i][j]
+                       = nesrestDiffereencePrime(n);
+              
+            }
+
+        }
+     
+        //this method find the min difference I need to achieve a col or row ful of prime
+        int globalMin = Integer.MAX_VALUE;
+        //try all the row to chekc if t have row full of prime
+        for (int i=0;i<row;i++){
+           int sum =0;
+            for (int j=0;j<col;j++){
+              sum+=differenceInPrime[i][j];
+            }
+            globalMin = Math.min(globalMin,sum);
+        }
+        //try all downward col
+        for (int i=0;i<col;i++){
+            int sum =0;
+            for (int j=0;j<row;j++){
+                sum+=differenceInPrime[j][i];
+            }
+            globalMin = Math.min(globalMin,sum);
+        }
+        System.out.println(globalMin);
+    }
+    static public void steive(){
+        Arrays.fill(arr,true);
+        arr[0] = false;
+        arr[1] = false;
+        for (long i=2;i<Max;i++)
+            if(arr[(int)i])
+                for (long j=i*i;j<Max;j+=i)
+                    arr[(int)j] = false;
+
+
+    }
+    //this will  get an int and return the difference to the nearest prime
+    static public int nesrestDiffereencePrime(int n){
+        int i=n;
+        if(arr[n])
+            return 0;
+        else
+            while (i<Max&&!arr[i])
+            {
+                i++;
+            }
+            return i-n;
+    }
+}
