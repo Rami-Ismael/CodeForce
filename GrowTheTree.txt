@@ -1,0 +1,32 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner in = new Scanner(System.in);
+        int n  = in.nextInt();
+        int [] branches = new int[n];
+        int i = n;
+        while (i-->0){
+            branches[i] = in.nextInt();
+        }
+        Arrays.sort(branches);
+        long x =0;
+        long y =0;
+      int midpoint = 0;
+      if(branches.length%2==0)
+          midpoint = branches.length/2;
+      else
+          midpoint =  branches.length/2;
+      for ( i=0;i<branches.length;i++){
+          if(i<midpoint)
+              x+=branches[i];
+          else
+              y+=branches[i];
+      }
+    
+         System.out.println((long)(x*x)+(y*y));
+    }
+}
