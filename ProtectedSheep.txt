@@ -1,0 +1,66 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class Main {
+static int row,col;
+static String [][] field;
+//my program was no optimal it was staright brute force
+    public static void main(String[] args) throws IOException, FileNotFoundException {
+	// write your code here
+        Scanner in=  new Scanner(System.in);
+        row = in.nextInt();
+        col= in.nextInt();
+        in.nextLine();
+        field = new String[row][col];
+        //this method will stop if a sheep if vertical or horizonalt next to a sheep
+        boolean stop = true;
+        StringBuilder sb = new StringBuilder();
+        for (int i=0;i<row;i++) {
+            field[i] = in.nextLine().split("");
+        }
+        for (int i=0;i<row;i++){
+
+            for (int j = 0; j < col && stop; j++) {
+                if (field[i][j].equals(".")) {
+                    sb.append("D");
+                }
+                    //check if the element inside the array is a sheep
+                else if (field[i][j].equals("S")) {
+                    if (inDanger(i, j))
+                        stop = false;
+                    else
+                        sb.append("S");
+                } else
+                    sb.append("W");
+            }
+            if (row - 1 != i)
+                sb.append("\n");
+        }
+        if(!stop)
+            System.out.println("No");
+        else{
+            System.out.println("Yes");
+            System.out.println(sb);
+        }
+    }
+
+    private static boolean inDanger(int i, int j) {
+        //check up
+        if(i>=1 &&field[i-1][j].equals("W"))
+                return true;
+        //check down
+        if (i<=row-2 &&field[i+1][j].equals("W"))
+            return true;
+        //check right
+         if(j<=col-2 &&field[i][j + 1].equals("W"))
+             return true;
+         //check left
+        if(j>=1&&field[i][j-1].equals("W"))
+            return true;
+
+        return false;
+    }
+}
