@@ -1,0 +1,34 @@
+import java.util.HashSet;
+import java.util.Scanner;
+
+public class Main {
+static HashSet<Integer> primes  = new HashSet<>();
+    public static void main(String[] args) {
+	// write your code here
+//https://codeforces.com/contest/755/problem/A
+        Stieve();
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
+        boolean stop = false;
+       int m = 1;
+        //start at m
+        //keep going until you reach point where the sum is not a prime
+        while (primes.contains((n*m)+1))
+            m++;
+        System.out.println(m);
+    }
+
+    private static void Stieve() {
+        int size = 1000000;
+        boolean[] visited = new boolean[size];
+        for (long i=2;i<size;i++) {
+            if (!visited[(int)i]) {
+               primes.add((int)i);
+                for (long j = i * i; j < size; j+=i) {
+                   // System.out.println(j);
+                    visited[(int) j] = true;
+                }
+            }
+        }
+    }
+}
