@@ -1,0 +1,57 @@
+import java.io.*;
+import java.util.StringTokenizer;
+//124/B
+public class Main {
+static int n,k,Min = Integer.MAX_VALUE;
+static String permutes ="";
+static String []digits  = new String[8];
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        // i have use permuation on the size index betwwene 0-k
+        //reanggare them by the way
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw= new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st= new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        k = Integer.parseInt(st.nextToken());
+        for (int i=0;i<k;i++)
+            permutes+=i;
+        for (int i=0;i<n;i++)
+            digits[i] = br.readLine();
+        permutation("",permutes);
+     pw.write(Min+"\n");
+     pw.flush();
+    }
+
+    private static void permutation(String prefix, String str) {
+        int n = str.length();
+        if (n == 0) sameRule(prefix);
+        else {
+            for (int i = 0; i < n; i++)
+                permutation(prefix + str.charAt(i),
+                        str.substring(0, i) + str.substring(i+1, n));
+        }
+    }
+
+    private static void sameRule(String prefix) {
+      //  System.out.println(prefix);
+        int [] arrayOfPermutes  = new int[n];
+        for (int i=0;i<n;i++){
+            String element = "";
+            for (int j=0;j<k;j++)
+            {
+
+                int index = Integer.parseInt(""+prefix.charAt(j));
+                element+=digits[i].charAt(index);
+            }
+            arrayOfPermutes[i] = Integer.parseInt(element);
+        }
+        int min = Integer.MAX_VALUE;
+        int Max = Integer.MIN_VALUE;
+        for (int i=0;i<n;i++){
+            min = Math.min(min,arrayOfPermutes[i]);
+            Max = Math.max(Max,arrayOfPermutes[i]);
+            }
+        Min = Math.min(Math.abs(Max-min),Min);
+    }
+}
