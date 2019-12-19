@@ -1,0 +1,89 @@
+
+import java.io.*;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+
+static int happyGirl =-1;
+static int happyBoy = -1;
+static int numberOfBoy,numberOfGirl;
+static int numberOfHappyBoy,numberOfHappyGirl;
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        numberOfBoy = Integer.parseInt(st.nextToken());
+        numberOfGirl = Integer.parseInt(st.nextToken());
+        //create the array
+        int [] boy = new int[100];
+        int [] girl = new int[100];
+        for(int i=0;i<numberOfGirl;i++)
+            girl[i] = i;
+        for (int i=0;i<numberOfBoy;i++)
+            boy[i] = i;
+        //get the happy boy
+        st = new StringTokenizer(br.readLine());
+        int k = Integer.parseInt(st.nextToken());
+        if(k>=1){
+           // k = Integer.parseInt(st.nextToken());
+            happyBoy = Integer.parseInt(st.nextToken());
+            numberOfHappyBoy = k;
+            while (st.hasMoreTokens()){
+                //unite the happy boy to the first boy
+                int u  = Integer.parseInt(st.nextToken());
+                boy[u] = happyBoy;
+            }
+        }
+        //get happy girl
+        st = new StringTokenizer(br.readLine());
+        k = Integer.parseInt(st.nextToken());
+        if(k>=1){
+            //k = Integer.parseInt(st.nextToken());
+            happyGirl = Integer.parseInt(st.nextToken());
+            numberOfHappyGirl = k;
+            while (st.hasMoreTokens()){
+                int u= Integer.parseInt(st.nextToken());
+                girl[u] = happyGirl;
+            }
+        }
+        //loop though the system
+        for (int i=0;i<(numberOfBoy*numberOfGirl)+1000;i++){
+            if(happyBoy==find(i%numberOfBoy,boy)||happyGirl==find(i%numberOfGirl,girl)){
+              //  System.out.println(i%numberOfBoy+" "+happyBoy+" "+i%numberOfGirl+" "+happyGirl);
+                //unite the element
+                //determine who is happy
+                if(happyBoy==-1) {
+                    happyBoy = i % numberOfBoy;
+                    numberOfHappyBoy++;
+                } else if(find(i%numberOfBoy,boy)!=happyBoy){
+                    numberOfHappyBoy++;
+                }
+                if(happyGirl==-1) {
+                    happyGirl = i % numberOfGirl;
+                    numberOfHappyGirl++;
+                }else if(find(i%numberOfGirl,girl)!=happyGirl){
+                    numberOfHappyGirl++;
+                }
+                boy[i%numberOfBoy] = happyBoy;
+                girl[i%numberOfGirl] = happyGirl;
+            }
+        }
+      //  System.out.println(numberOfHappyGirl+" "+numberOfHappyBoy);
+        if(numberOfHappyGirl==numberOfGirl&&numberOfHappyBoy==numberOfBoy)
+            pw.write("Yes \n");
+        else
+            pw.write("No \n");
+        pw.flush();
+    }
+    static public int find(int x,int [] array){
+        if(array[x]==x)
+            return x;
+        else{
+            array[x] = find(array[x],array);
+            return array[x];
+        }
+
+    }
+}
