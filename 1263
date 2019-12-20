@@ -1,0 +1,74 @@
+//155 ms 
+//https://codeforces.com/problemset/problem/1263/D
+import java.io.*;
+import java.util.HashSet;
+
+public class Main {
+static int n;
+static int [] union;
+static int [] ranking;
+
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        //create an array using asccii
+        int [] ascii  = new int[26];
+        for (int i=0;i<ascii.length;i++)
+            ascii[i] = -1;
+       /** for (int i=97;i<=122;i++)
+            System.out.println(i%97);
+        */
+       //get n
+        n = Integer.parseInt(br.readLine());
+        // loop through your query
+        String line;
+        while (n-->0){
+            line =br.readLine();
+            if(line.length()==1&&ascii[((int)line.charAt(0))%97]==-1)
+                ascii[((int)line.charAt(0))%97] = ((int)line.charAt(0))%97;
+            else
+            {
+                int first =((int)line.charAt(0))%97;
+                if(ascii[first]==-1)
+                    ascii[first] = first;
+                int k= 0;
+                for (int i=1;i<line.length();i++){
+                    k = ((int)line.charAt(i))%97;
+                    //if the value is not discover
+                    if(ascii[k]==-1)
+                        ascii[k] = k;
+                    //unite
+                    if(first>k){
+                    //rank is bigger
+                        ascii[find(k,ascii)] = find(first,ascii);
+
+                    }else{
+                        ascii[find(first,ascii)] = find(k,ascii);
+                    }
+                }
+            }
+        }
+        // using a hashset
+        HashSet<Integer> value = new HashSet<>();
+        for (int i=0;i<ascii.length;i++){
+            int k= find(ascii[i],ascii);
+          if(k!=-1)
+              value.add(k);
+        }
+        //get the size ofthe hashset
+        pw.println(value.size());
+        pw.flush();
+    }
+    static int find(int x,int [] array){
+        if(x==-1)
+            return -1;
+        if(array[x]==x)
+            return x;
+        else{
+            array[x] = find(array[x],array);
+            return array[x];
+        }
+
+    }
+}
