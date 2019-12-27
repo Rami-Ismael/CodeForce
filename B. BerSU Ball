@@ -1,0 +1,49 @@
+import java.io.*;
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.StringTokenizer;
+
+public class Main {
+//https://codeforces.com/problemset/problem/489/B
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        //i'm doing dyanmmicllly
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw= new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st=  new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int[] girl = new int[n];
+        st = new StringTokenizer(br.readLine());
+        for (int i=0;i<n;i++){
+            girl[i] = Integer.parseInt(st.nextToken());
+        }
+        st = new StringTokenizer(br.readLine());
+        int m = Integer.parseInt(st.nextToken());
+        st = new StringTokenizer(br.readLine());
+        int [] boy  = new int[m];
+        for (int i=0;i<m;i++)
+            boy[i] = Integer.parseInt(st.nextToken());
+        //sort the array
+        Arrays.sort(boy);
+        Arrays.sort(girl);
+        //create a dp table
+        int [] [] dp = new int[n+1][m+1];
+        //two for loop
+        for (int i=0;i<n;i++)
+            dp[i][0] = 0;
+        for (int i =0;i<m;i++)
+            dp[0][i] = 0;
+        for (int row = 1;row<=n;row++){
+            for (int col = 1;col<=m;col++){
+                if (Math.abs(girl[row-1]-boy[col-1])<=1){
+                    dp[row][col] = Math.max(dp[row-1][col-1]+1,dp[row][col-1]);
+                }else
+                    dp[row][col] = Math.max(dp[row-1][col],dp[row][col-1]);
+            }
+        }
+       // for (int i=0;i<=n;i++)
+         //   System.out.println(Arrays.toString(dp[i]));
+        pw.println(dp[n][m]);
+        pw.flush();
+    }
+}
