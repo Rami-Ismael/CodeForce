@@ -1,0 +1,36 @@
+import java.io.*;
+
+public class Main {
+//use long 
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        String line = br.readLine();
+        long pivot =  line.indexOf("^");
+        long leftsum =0;
+        long rightsum =0;
+        long i=pivot-1;
+        long j=pivot+1;
+        while (i>=0||j<line.length()){
+
+            if (i>=0&&Character.isDigit(line.charAt((int)i))){
+                leftsum+=((((long)line.charAt((int)i))-48)*(pivot-i));
+            }
+            if (j<line.length()&&Character.isDigit(line.charAt((int)j))){
+                rightsum+=((((long)line.charAt((int)j))-48)*(j-pivot));
+
+            }
+            i--;
+            j++;
+        }
+
+        if (leftsum==rightsum)
+            pw.println("balance");
+        else if (leftsum>rightsum)
+            pw.println("left");
+        else
+            pw.println("right");
+        pw.flush();
+    }
+}
