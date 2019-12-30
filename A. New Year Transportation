@@ -1,0 +1,46 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.BitSet;
+import java.util.LinkedList;
+import java.util.StringTokenizer;
+
+public class Main {
+//
+    static boolean visit = false;
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in
+        ));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+
+        int n= Integer.parseInt(st.nextToken());//number of cell
+        //there is 1 t0 n
+        int t = Integer.parseInt(st.nextToken());
+        //the desire location i want to got
+        //create a graph
+        ArrayList<ArrayList<Integer>> graph =new ArrayList<>();
+        LinkedList<Integer> adjlist[] = new LinkedList[n+1];
+        for (int i=0;i<=n;i++)
+            adjlist[i] = new LinkedList<>();
+        //the edges
+        st = new StringTokenizer(br.readLine());
+        for (int i=1;i<n;i++){
+            adjlist[i].add(i+Integer.parseInt(st.nextToken()));
+        }
+        //create a dfs serach appraoch
+        boolean [] visited = new boolean[n+1];
+        dfs(1,t,visited,adjlist);
+        pw.println(visit?"YES":"NO");
+        pw.flush();
+    }
+
+    private static void dfs(int vertex, int t, boolean[] visited, LinkedList<Integer>[] adjlist) {
+        visited[vertex] = true;
+        if (vertex==t)
+            visit = true;
+        for (int i=0;i<adjlist[vertex].size();i++)
+            if (!visited[adjlist[vertex].get(i)])
+                dfs(adjlist[vertex].get(i),t,visited,adjlist);
+    }
+}
