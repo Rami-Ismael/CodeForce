@@ -1,0 +1,58 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+
+public class Main {
+static int distance= Integer.MAX_VALUE;
+   static int tcol;
+ static    int trow;
+ static ArrayList<String> action = new ArrayList<>();
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        int row;
+        int col;
+        String start = br.readLine();
+        col = ((int)start.charAt(0))-49;
+        row =  ((int)start.charAt(1))-97;
+
+        String target = br.readLine();
+        tcol = ((int)target.charAt(0))-49;
+        trow =  ((int)target.charAt(1))-97;
+       // System.out.println(target);
+        int distance =0;;
+        while (col!=tcol||row!=trow){
+            distance++;
+            //
+            int colGoing = tcol-col;
+            int rowGoing = trow -row;
+
+            String step = "";
+            //determine hwer to go base on the row
+            if ((colGoing >= 1)) {
+                col++;
+                step+="R";
+            }
+           else if (colGoing<=-1) {
+                col--;
+                step+="L";
+            }
+
+            if ((rowGoing >= 1)) {
+                row++;
+                step+="U";
+            }
+            else if (rowGoing<=-1) {
+                row--;
+                step+="D";
+            }
+            action.add(step);
+        }
+       pw.println(distance);
+        Iterator<String> it = action.iterator();
+        while (it.hasNext())
+            pw.println(it.next());
+        pw.flush();
+    }
+}
