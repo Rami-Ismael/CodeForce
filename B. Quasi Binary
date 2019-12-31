@@ -1,0 +1,38 @@
+import java.io.*;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br =new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st =new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        ArrayList<Integer> list =new ArrayList<>();
+        int k =0;
+        while (n!=0){
+            int value =0;
+            int digit =1;
+            int temp =n;
+            while (temp>0){
+              if ( temp%10!=0)value+=(1*digit);
+                temp/=10;
+                digit*=10;
+            }
+            list.add(value);
+            n-=value;
+        }
+        pw.println(list.size());
+        Iterator<Integer> it = list.iterator();
+        while (it.hasNext()){
+            pw.print(it.next());
+            if (it.hasNext())
+                pw.print(" ");
+        }
+        pw.flush();
+    }
+
+}
