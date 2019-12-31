@@ -1,0 +1,13 @@
+import java.math.BigDecimal ;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner in = new Scanner(System.in);
+        long n = in.nextLong();
+        long three = 3;
+        System.out.println(three*n*(n+1)+1);
+    }
+}
