@@ -1,0 +1,32 @@
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner in =new Scanner(System.in);
+        int n  = in.nextInt();
+        long left = 1;
+        long right =(long)Math.pow(2,n)-1;
+        long mid = left+(right-left)/2;
+        long k = in.nextLong();
+        int step = n;
+        n--;
+        if (k%2==1)
+            //is odd
+            System.out.println("1");
+        else
+        {
+            while (mid!=k){
+                if (mid<k){
+                    mid+=Math.pow(2,--n);
+                }
+                else {
+                    mid-=Math.pow(2,--n);
+                }
+                step--;
+            }
+            System.out.println(step);
+        }
+    }
+}
