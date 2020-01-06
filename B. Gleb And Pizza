@@ -1,0 +1,39 @@
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+static double r,d,n,x,y,r1;
+static int count;
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        r = Integer.parseInt(st.nextToken());
+        d = Integer.parseInt(st.nextToken());
+        st= new StringTokenizer(br.readLine());
+        n = Integer.parseInt(st.nextToken());
+        while (n-->0){
+            st = new StringTokenizer(br.readLine());
+            x = Integer.parseInt(st.nextToken());
+            y = Integer.parseInt(st.nextToken());
+            r1 = Integer.parseInt(st.nextToken());
+            if (insideCircle())
+                count++;
+        }
+        pw.print(count);
+        pw.flush();
+    }
+
+    private static boolean insideCircle() {
+        double dx = (int) x;  double dy = y; double Euc =  Math.sqrt(dx*dx+dy*dy);
+
+      //  System.out.println((r1+Euc<=r)+" "+(Euc-r1>=r-d));
+
+      if (r1+Euc<=r&&Euc-r1>=r-d){
+          return  true;
+      }
+      return false;
+
+    }
+}
