@@ -1,0 +1,81 @@
+import java.io.*;
+import java.util.*;
+
+public class Main {
+private static HashMap<Character,Integer> [] line = new HashMap[2000000];
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+        int n  = Integer.parseInt(br.readLine());
+        String Line = br.readLine();
+        line[0]= new HashMap<>();
+        line[0].put(Line.charAt(0),1);
+        //
+        for(int i=1;i<Line.length();i++){
+            line[i]  = (HashMap)line[i-1].clone();
+            if (line[i-1].containsKey(Line.charAt(i))) {
+                line[i].replace(Line.charAt(i),line[i].get(Line.charAt(i))+1);
+            }
+            else{
+                line[i].put(Line.charAt(i),1);
+            }
+        }
+     //   System.out.println(Arrays.toString(line));
+        int m = Integer.parseInt(br.readLine());
+
+        while (m-->0){
+            String word = br.readLine();
+            HashMap<Character,Integer> target =new HashMap<>();
+           for (int i=0;i<word.length();i++)
+               if (target.containsKey(word.charAt(i)))
+                   target.replace(word.charAt(i),target.get(word.charAt(i))+1);
+               else
+                   target.put(word.charAt(i),1);
+          //  pw.println(target);
+               int left =0;
+               int right = n-1;
+               int mid = 0;
+               while (left<=right){
+                //   System.out.println(mid);
+                   mid = (left+right)/2;
+                 if (compare(target,mid)>=1)
+                     left = mid+1;
+                 else
+                     right = mid-1;
+               }
+               pw.println(right+2);
+        }
+pw.flush();
+    }
+    public static int compare(HashMap<Character,Integer> target,int mid){
+
+        Iterator it = target.entrySet().iterator();
+        int numberOfElementisGreater =0;
+        int numerOfElementisLessThan =0;
+        int equalAmount = 0;
+        int unknonw = 0;
+        while (it.hasNext()){
+        Map.Entry pair = (Map.Entry)it.next();
+           // System.out.println(line[mid]);
+
+        if (line[mid].get((char)pair.getKey())!=null) {
+            int value = line[mid].get((char)pair.getKey());
+            if (value > (int) pair.getValue())
+                numberOfElementisGreater++;
+            else if (line[mid].get(pair.getKey()) == (int) pair.getValue())
+                equalAmount++;
+            else
+                numerOfElementisLessThan++;
+        }
+        else
+          return 1;
+
+        }
+        //a lot fo less than
+        if (numerOfElementisLessThan>=1)
+            return 1;
+        return 0;
+    }
+
+}
