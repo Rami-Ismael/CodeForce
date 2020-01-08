@@ -1,0 +1,31 @@
+import java.io.*;
+import java.util.StringTokenizer;
+
+public class Main {
+static int TC,n;
+static int [] array = new int[100000];
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        StringTokenizer st ;// = new StringTokenizer(br.readLine());
+        TC  = Integer.parseInt(br.readLine());
+        while (TC-->0){
+            n = Integer.parseInt(br.readLine());
+            st = new StringTokenizer(br.readLine());
+            long sum = 0;
+            long sumXor = 0;
+            for (int i=0;i<n;i++) {
+                array[i] = Integer.parseInt(st.nextToken());
+                sum+=array[i];
+                sumXor^=array[i];
+            }
+
+          if (sum==2*sumXor)
+              pw.println(0+"\n");
+          else
+              pw.println(2+"\n"+sumXor+" "+(sum+sumXor));
+        }
+        pw.flush();
+    }
+}
