@@ -1,0 +1,29 @@
+import java.io.*;
+import java.util.HashMap;
+import java.util.HashSet;
+
+public class Main {
+static PrintWriter pw =new PrintWriter(new OutputStreamWriter(System.out));
+static HashMap<String,Integer> set = new HashMap<>();
+static int n ;
+static String line = "";
+    public static void main(String[] args) throws IOException {
+	// write your code here
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        n = Integer.parseInt(br.readLine());
+        while (n-->0){
+         line = br.readLine();
+         if (set.containsKey(line)){
+             pw.println(line+""+set.get(line));
+             set.replace(line,set.get(line)+1);
+         }
+         else{
+             pw.println("OK");
+             set.put(line,1);
+         }
+           // pw.flush();
+        }
+        pw.flush();
+
+    }
+}
