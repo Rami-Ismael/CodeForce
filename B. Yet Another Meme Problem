@@ -1,0 +1,46 @@
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+public class Main {
+
+    public static void main(String[] args) {
+	// write your code here
+        Scanner in = new Scanner(System.in);
+        int TC = in.nextInt();
+        PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+      numberOfNies(10);
+        while (TC-->0) {
+            long a =in.nextInt();
+            long b = in.nextInt();
+            pw.println(a*numberOfNies(b));
+        }
+pw.flush();
+
+    }
+
+   public static long numberOfNies(long n){
+        long ret = 0;
+       ArrayList<Integer> list = new ArrayList<>();
+       long u = 0;
+       list.add(9);
+        for (int i=1;i<9;i++)
+        {
+             u = (long) (list.get(i-1)*(10)+9);
+       //     System.out.println(u);
+            if (u<Integer.MAX_VALUE)
+            list.add((int)u);
+        }
+      // System.out.println(list);
+        int k=0;
+        int i=0;
+      while (i<list.size()&&n>=list.get(i)&&n>k){
+              ret++;
+       //       System.out.println(list.get(i)+" "+k);
+          k =list.get(i);
+          i++;
+      }
+        return ret;
+   }
+}
