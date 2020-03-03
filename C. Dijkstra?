@@ -1,0 +1,90 @@
+import java.io.*;
+import java.util.*;
+public class Main {
+    static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+   // static String line;
+    static  int n,k,T,N,m;
+    static StringTokenizer st;
+    static int [] parent;
+
+    public static void main(String[] args) throws IOException {
+        BitSet visit;
+    st = new StringTokenizer(br.readLine());
+    n = Integer.parseInt(st.nextToken());
+    m = Integer.parseInt(st.nextToken());
+    visit = new BitSet(n+1);
+    //graph
+        ArrayList<IntegerPair> graph[] =new ArrayList[n+1];
+        for (int i=0;i<=n;i++){
+            graph[i] = new ArrayList<>();
+        }
+        for (int j=0;j<m;j++){
+            st =new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int weight = Integer.parseInt(st.nextToken());
+            graph[a].add(new IntegerPair(b,weight));
+            graph[b].add(new IntegerPair(a,weight));
+
+        }
+        PriorityQueue<IntegerPair> queue =new PriorityQueue<>();
+        queue.add(new IntegerPair(1,0));
+        int []distance =new int[n+1];
+        Arrays.fill(distance,Integer.MAX_VALUE);
+         parent =new int[n+1];
+        for (int i=0;i<=n;i++)
+            parent[i] = i;
+        while (!queue.isEmpty()){
+            IntegerPair front = queue.poll();
+            int d = front.weight;
+            int u = front.v;
+            visit.set(u,true);
+            if (d>distance[u]) continue;
+            for (int j=0;j<graph[u].size();j++){
+                IntegerPair v = graph[u].get(j);
+                if (!visit.get(v.v)&&distance[u]+v.weight<distance[v.v]){
+                    parent[v.v] = u;
+                    distance[v.v] = distance[u]+v.weight;
+                    queue.add(new IntegerPair(v.v,distance[v.v]));
+                }
+            }
+        }
+        if (distance[n]==Integer.MAX_VALUE)
+            pw.println(-1);
+        else
+            contructPath();
+        pw.flush();
+
+    }
+
+    private static void contructPath() {
+        ArrayList<Integer> path = new ArrayList<>();
+        int u = parent[n];
+        path.add(n);
+        while (u!=1){
+            path.add(u);
+            u = parent[u];
+        }
+        path.add(1);
+      for (int i=path.size()-1;i>=0;i--){
+        pw.print(i!=0?path.get(i)+" ":path.get(i));
+      }
+
+    }
+
+    public static class IntegerPair implements Comparable<IntegerPair>{
+        int v;
+        int weight;
+
+        public IntegerPair(int v, int wieght) {
+            this.v = v;
+            this.weight = wieght;
+        }
+
+        @Override
+        public int compareTo(IntegerPair integerPair) {
+            return weight-integerPair.weight;
+        }
+    }
+}
