@@ -1,0 +1,36 @@
+    import java.io.*;
+    import java.util.*;
+    public class Main {
+        static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+        static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+     
+        public static void main(String[] args) throws IOException {
+    	// write your code here
+            int n = Integer.parseInt(br.readLine());
+            HashSet<String> hash = new HashSet<>();
+            HashMap<String,String> map = new HashMap<>();
+            int [] arr = new int[n*n];
+            while (n-->0){
+              StringTokenizer st = new StringTokenizer(br.readLine());
+              String u = st.nextToken();
+              String v = st.nextToken();
+              if (!map.containsKey(u)){
+                  if (!map.containsValue(u)){
+                      hash.add(u);
+                  }
+                  map.put(u,v);
+              }
+     
+            }
+            pw.println(hash.size());
+            for (String u:hash){
+                pw.print(u);
+                String v = u;
+                while (map.containsKey(v)){
+                    v = map.get(v);
+                }
+                pw.print(" "+v+"\n");
+            }
+            pw.flush();
+        }
+    }
