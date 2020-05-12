@@ -1,0 +1,102 @@
+import java.io.*;
+import java.util.*;
+/**
+ * Main
+ */
+public class Main {
+       static int mod  = 1000000007;
+        static PrintWriter pw = new PrintWriter(new OutputStreamWriter(System.out));
+    public static void main(String[] args) {
+       MyScanner ms  = new MyScanner();
+        // and b  a is a divior of b i fnad onlf thery exist an integer c
+        //a*c = b
+        //n>2 f(n) the smallest positive diviros of n except of 1
+        //n =5, the new values of n will be equla to 10
+        //will be given n and k then wil be add to n-k then k
+
+        //the unkonwn : is n the started vlaue and K the number of time to repeat
+        // the data : is the n started value and K the number of time to repeat
+        //The condition:  is n shte started value and 
+        //is the number is even then put two
+        //i have to the find the prime number the divisble to to. The  
+        //If the number id odd then it will be divible to a pirme number ebfore any other number
+        BitSet bs = new BitSet(100001);
+        int max = 100000;
+        for(long i = 2;i<=max;i++){
+            if(bs.get((int)i)){
+                for(long j=i*i;j<=max;i++){
+                    bs.set((int)j);
+                }
+            }
+            i = bs.nextClearBit((int)i+1);
+        }
+        //the idea is wil not work I tdidn't think aboyut the restiricion of k
+        //if n is even the the number will be increase by two
+        //if n is odd plus odd plus odd is even then i ID on have to find the math
+        int t = ms.nextInt();
+        while(t-->0){
+            int n= ms.nextInt();int k = ms.nextInt();
+            int sum=n;
+           if((n&1)==0){
+               pw.println(k*2+n);
+           }else{
+               int p = f(n, bs);
+               n+=p;
+               k--;
+               pw.println(k*2+n);
+           }
+        }
+    pw.flush();
+    }
+    public static class MyScanner {
+        BufferedReader br;
+        StringTokenizer st;
+   
+        public MyScanner() {
+           br = new BufferedReader(new InputStreamReader(System.in));
+        }
+   
+        String next() {
+            while (st == null || !st.hasMoreElements()) {
+                try {
+                    st = new StringTokenizer(br.readLine());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            return st.nextToken();
+        }
+   
+        int nextInt() {
+            return Integer.parseInt(next());
+        }
+   
+        long nextLong() {
+            return Long.parseLong(next());
+        }
+   
+        double nextDouble() {
+            return Double.parseDouble(next());
+        }
+   
+        String nextLine(){
+            String str = "";
+        try {
+           str = br.readLine();
+        } catch (IOException e) {
+           e.printStackTrace();
+        }
+        return str;
+        }
+  
+     }
+     public static int f(int n, BitSet bs){
+        if(n%2==0)
+        return 2;
+        int j=3;
+        while(n%j!=0){
+            j = bs.nextClearBit(j+1);
+        }
+        return j;
+    }
+}
