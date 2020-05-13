@@ -1,0 +1,88 @@
+import java.io.*;
+import java.util.*;
+public class code {
+    public static void main(String[] args) {
+        MyScanner ms = new MyScanner();
+        int n = ms.nextInt();int m = ms.nextInt();
+        ArrayList<ArrayList<Integer>> G;
+        int N = n+m;
+        G = new ArrayList<ArrayList<Integer>>(N+2);
+        for (int i = 0; i <=N; i++) 
+             G.add(new ArrayList<Integer>()); 
+        for(int i=1;i<=n;i++){
+            int size =ms.nextInt();
+            for(int j=0;j<size;j++){
+                int v = ms.nextInt()+n;
+            G.get(i).add(v);
+            G.get(v).add(i);
+            }
+        }
+        BitSet bs = new BitSet(N+1);
+        int count=0;
+        int noOutComingEdge =0;
+        for(int i=1;i<=n;i++){
+            if(G.get(i).size()==0)
+            noOutComingEdge++;
+             else if(!bs.get(i)){
+                dfs(i,bs,G);
+                count++;
+            }
+        }
+
+        if(noOutComingEdge==n)
+    System.out.println(n);
+    else
+        System.out.print(count-1+noOutComingEdge);    
+    }
+static void dfs(int at,BitSet bs, ArrayList<ArrayList<Integer>> G){
+    bs.set(at,true);
+    for(int i=0;i<G.get(at).size();i++){
+        int to = G.get(at).get(i);
+        if(!bs.get(to)){
+            dfs(to,bs,G);
+        }
+    }
+}
+public static class MyScanner {
+    BufferedReader br;
+    StringTokenizer st;
+
+    public MyScanner() {
+       br = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    String next() {
+        while (st == null || !st.hasMoreElements()) {
+            try {
+                st = new StringTokenizer(br.readLine());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return st.nextToken();
+    }
+
+    int nextInt() {
+        return Integer.parseInt(next());
+    }
+
+    long nextLong() {
+        return Long.parseLong(next());
+    }
+
+    double nextDouble() {
+        return Double.parseDouble(next());
+    }
+
+    String nextLine(){
+        String str = "";
+    try {
+       str = br.readLine();
+    } catch (IOException e) {
+       e.printStackTrace();
+    }
+    return str;
+    }
+
+ }
+}
