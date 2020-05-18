@@ -1,0 +1,85 @@
+  static  PrintWriter p = new PrintWriter(System.out);
+   static int [] ft ;
+
+    public static void main(String args[]) throws IOException {
+        Reader ob = new Reader();
+        int n = ob.nextInt();
+        int q = ob.nextInt();
+        int max = 1000000;
+        int [] A = new int[max+1];
+       
+        for(int i=0;i<n;i++)
+        A[i] = ob.nextInt();
+        //create a fenwikc tree
+        ft = new int[max+1];
+        int count =1;
+        int prev = A[0];
+        for(int i=1;i<n;i++){
+            if(prev!=A[i]){
+              
+                update(prev, count);
+            
+                count=1;
+                prev = A[i];
+            }
+            else{
+                count++;
+            }
+        }
+        
+        update(prev, count);
+        for( int i=0;i<q;i++){
+            int val = ob.nextInt();
+            if(val>0){
+                update(val, 1);
+            }else{
+                int index = lowerBound(0, n-1, Math.abs(val));
+                update((index+1), -1);
+            }
+        }
+         if(sum(0, max)>=1){
+            int idx =1;
+            while(sum(0,idx)==0){
+                idx++;
+            }
+            p.println(idx);
+         }
+         else
+         p.println("0");
+        p.close();
+    }
+  static   int lowerBound(int low,int high,int element){
+        while(low<high){
+            int mid = low+(high-low)/2;
+            long Sum = sum(0 , mid+1);
+           // p.println(Sum+" sum");
+            if(element>Sum){
+                low = mid+1;
+            }else{
+                high = mid;
+            }
+        }
+        return low;
+    }
+    static int lsb(int i){
+        return i&-i;
+    }
+    static void update(int idx,int val){
+        while(idx<ft.length){   
+            ft[idx]+=val;
+            idx+=(lsb(idx));
+        }
+    }
+static     long sum (int i, int j){
+        return prefixSum(j)-prefixSum(i-1);
+    }
+
+   
+    static public long prefixSum(int i){
+        long sum=0;
+        while(i>0){
+            sum+=ft[i];
+            i-=lsb(i);
+        }
+        return sum;
+    }
