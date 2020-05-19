@@ -1,0 +1,28 @@
+  ArrayList<ArrayList<IP>> G = new ArrayList<ArrayList<IP>>(n+1);
+       for(int i=0;i<=n;i++)
+       G.add(new ArrayList<>());
+       for(int i=0;i<m;i++){
+           int u= ms.nextInt();
+           int v = ms.nextInt();
+           int weight = ms.nextInt();
+           G.get(u).add(new IP(v, weight));
+           G.get(v).add(new IP(u, weight));
+       }
+        HashSet<Integer> ks = new HashSet<>();
+        if(k==0)
+        pw.println(-1);
+        else{
+            for(int i=0;i<k;i++)
+            ks.add(ms.nextInt());
+            int min = Integer.MAX_VALUE;
+            Iterator<Integer> it  = ks.iterator();
+             while(it.hasNext()){
+                 int u= it.next();
+                 for(int i=0;i<G.get(u).size();i++){
+                     int v = G.get(u).get(i).v;
+                     if(!ks.contains(v)){
+                         min = Math.min(G.get(u).get(i).weight, min);
+                     }
+                 }
+             }
+             pw.println(min==Integer.MAX_VALUE?"-1":min);
